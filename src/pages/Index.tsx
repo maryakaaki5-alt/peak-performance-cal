@@ -45,6 +45,15 @@ const Index = () => {
           <Dashboard upcomingEvents={upcomingEvents} />
         </section>
 
+        <section id="schedule">
+          <h2 className="text-2xl font-bold font-heading mb-4">Weekly Training Schedule</h2>
+          <WeeklySchedule
+            events={events}
+            onEventClick={handleEventClick}
+            onUpdate={updateEvent}
+          />
+        </section>
+
         <section id="calendar">
           <SmartCalendar
             events={events}
