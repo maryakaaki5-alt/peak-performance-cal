@@ -117,6 +117,25 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
             <Input id="location" value={location} onChange={e => setLocation(e.target.value)} placeholder="Optional" className="mt-1" />
           </div>
 
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>Recurrence</Label>
+              <Select value={recurrence} onValueChange={v => setRecurrence(v as RecurrenceType)}>
+                <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekdays">Weekdays</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="duration">Duration (min)</Label>
+              <Input id="duration" type="number" min={15} step={15} value={durationMinutes} onChange={e => setDurationMinutes(Number(e.target.value))} className="mt-1" />
+            </div>
+          </div>
+
           <div>
             <Label htmlFor="desc">Description</Label>
             <Textarea id="desc" value={description} onChange={e => setDescription(e.target.value)} placeholder="Optional" className="mt-1" rows={2} />
