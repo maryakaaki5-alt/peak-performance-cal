@@ -27,6 +27,8 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [reminder, setReminder] = useState(false);
+  const [recurrence, setRecurrence] = useState<RecurrenceType>('none');
+  const [durationMinutes, setDurationMinutes] = useState(60);
 
   useEffect(() => {
     if (event) {
