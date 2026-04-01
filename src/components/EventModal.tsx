@@ -41,6 +41,7 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
       setReminder(event.reminder || false);
       setRecurrence(event.recurrence || 'none');
       setDurationMinutes(event.durationMinutes || 60);
+    } else {
       const d = defaultDate || new Date();
       setTitle('');
       setCategory('sport');
@@ -49,6 +50,8 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
       setLocation('');
       setDescription('');
       setReminder(false);
+      setRecurrence('none');
+      setDurationMinutes(60);
     }
   }, [event, defaultDate, open]);
 
