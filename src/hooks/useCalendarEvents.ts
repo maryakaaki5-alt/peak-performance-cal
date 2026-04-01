@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import { CalendarEvent, SAMPLE_EVENTS } from '@/lib/types';
+import { isSameDay, getDay } from 'date-fns';
 
 export function useCalendarEvents() {
   const [events, setEvents] = useState<CalendarEvent[]>(SAMPLE_EVENTS);
@@ -16,13 +17,29 @@ export function useCalendarEvents() {
     setEvents(prev => prev.filter(e => e.id !== id));
   }, []);
 
+  const isEventOnDate = useCallback((event: CalendarEvent, date: Date): boolean => {
+    if (isSameDay(event.date, date)) return true;
+    if (!event.recurrence || event.recurrence === 'none') return false;
+    if (date < event.date) return false;
+
+    const eventDay = getDay(event.date);
+    const targetDay = getDay(date);
+
+    switch (event.recurrence) {
+      case 'daily':
+        return true;
+      case 'weekdays':
+        return targetDay >= 1 && targetDay <= 5;
+      case 'weekly':
+        return eventDay === targetDay;
+      default:
+        return false;
+    }
+  }, []);
+
   const getEventsForDate = useCallback((date: Date) => {
-    return events.filter(e =>
-      e.date.getFullYear() === date.getFullYear() &&
-      e.date.getMonth() === date.getMonth() &&
-      e.date.getDate() === date.getDate()
-    );
-  }, [events]);
+    return events.filter(e => isEventOnDate(e, date));
+  }, [events, isEventOnDate]);
 
   const upcomingEvents = useMemo(() => {
     const now = new Date();
