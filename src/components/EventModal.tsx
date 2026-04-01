@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { CalendarEvent, EventCategory, CATEGORY_CONFIG } from '@/lib/types';
+import { CalendarEvent, EventCategory, RecurrenceType, CATEGORY_CONFIG } from '@/lib/types';
 import { Trash2 } from 'lucide-react';
 
 interface Props {
@@ -27,6 +27,8 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [reminder, setReminder] = useState(false);
+  const [recurrence, setRecurrence] = useState<RecurrenceType>('none');
+  const [durationMinutes, setDurationMinutes] = useState(60);
 
   useEffect(() => {
     if (event) {
@@ -37,6 +39,8 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
       setLocation(event.location || '');
       setDescription(event.description || '');
       setReminder(event.reminder || false);
+      setRecurrence(event.recurrence || 'none');
+      setDurationMinutes(event.durationMinutes || 60);
     } else {
       const d = defaultDate || new Date();
       setTitle('');
@@ -46,6 +50,8 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
       setLocation('');
       setDescription('');
       setReminder(false);
+      setRecurrence('none');
+      setDurationMinutes(60);
     }
   }, [event, defaultDate, open]);
 
@@ -56,7 +62,7 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
     const [hours, minutes] = time.split(':').map(Number);
     const eventDate = new Date(year, month - 1, day, hours, minutes);
 
-    const data = { title, category, date: eventDate, location: location || undefined, description: description || undefined, reminder };
+    const data = { title, category, date: eventDate, location: location || undefined, description: description || undefined, reminder, recurrence, durationMinutes };
 
     if (event && onUpdate) {
       onUpdate(event.id, data);
@@ -109,6 +115,25 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
           <div>
             <Label htmlFor="location">Location</Label>
             <Input id="location" value={location} onChange={e => setLocation(e.target.value)} placeholder="Optional" className="mt-1" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>Recurrence</Label>
+              <Select value={recurrence} onValueChange={v => setRecurrence(v as RecurrenceType)}>
+                <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekdays">Weekdays</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="duration">Duration (min)</Label>
+              <Input id="duration" type="number" min={15} step={15} value={durationMinutes} onChange={e => setDurationMinutes(Number(e.target.value))} className="mt-1" />
+            </div>
           </div>
 
           <div>

@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import HeroProfile from '@/components/HeroProfile';
 import Dashboard from '@/components/Dashboard';
 import SmartCalendar from '@/components/SmartCalendar';
+import WeeklySchedule from '@/components/WeeklySchedule';
 import EventModal from '@/components/EventModal';
 import { useCalendarEvents } from '@/hooks/useCalendarEvents';
 import { CalendarEvent } from '@/lib/types';
@@ -42,6 +43,15 @@ const Index = () => {
 
         <section id="dashboard">
           <Dashboard upcomingEvents={upcomingEvents} />
+        </section>
+
+        <section id="schedule">
+          <h2 className="text-2xl font-bold font-heading mb-4">Weekly Training Schedule</h2>
+          <WeeklySchedule
+            events={events}
+            onEventClick={handleEventClick}
+            onUpdate={updateEvent}
+          />
         </section>
 
         <section id="calendar">
