@@ -62,7 +62,7 @@ export default function EventModal({ open, onOpenChange, event, defaultDate, onS
     const [hours, minutes] = time.split(':').map(Number);
     const eventDate = new Date(year, month - 1, day, hours, minutes);
 
-    const data = { title, category, date: eventDate, location: location || undefined, description: description || undefined, reminder };
+    const data = { title, category, date: eventDate, location: location || undefined, description: description || undefined, reminder, recurrence, durationMinutes };
 
     if (event && onUpdate) {
       onUpdate(event.id, data);
