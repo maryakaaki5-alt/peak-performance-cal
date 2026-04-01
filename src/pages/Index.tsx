@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import HeroProfile from '@/components/HeroProfile';
 import Dashboard from '@/components/Dashboard';
 import SmartCalendar from '@/components/SmartCalendar';
+import WeeklySchedule from '@/components/WeeklySchedule';
 import EventModal from '@/components/EventModal';
 import { useCalendarEvents } from '@/hooks/useCalendarEvents';
 import { CalendarEvent } from '@/lib/types';
