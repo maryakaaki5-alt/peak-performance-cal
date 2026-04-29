@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Zap } from 'lucide-react';
 
-const links = ['Dashboard', 'Schedule', 'Calendar', 'Profile'];
+const links = ['Dashboard', 'Goals', 'Schedule', 'Calendar', 'Profile'];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
